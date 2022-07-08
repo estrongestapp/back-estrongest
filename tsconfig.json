@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "esModuleInterop": true,
+				"target": "ES6",
+				"module": "commonjs"
+    },
+		"exclude": [
+        "node_modules",
+        "tests"
+    ]
+}
