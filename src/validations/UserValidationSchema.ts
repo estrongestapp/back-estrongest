@@ -7,7 +7,7 @@ const UserSchema = Joi.object({
     senha: Joi.string().min(4).max(10).required()
         .error(new ValidationError('A senha deve ter entre 4 e 10 caracteres!')),
     nome: Joi.string().min(3).required()
-        .error(new ValidationError('O nome precisa ter pelo menos 5 letras!')),
+        .error(new ValidationError('O nome precisa ter pelo menos 3 letras!')),
 });
 
 export default UserSchema;

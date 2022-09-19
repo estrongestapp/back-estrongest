@@ -2,9 +2,10 @@ import {
     BaseEntity, Entity, PrimaryGeneratedColumn, OneToMany, JoinColumn, Column,
 } from 'typeorm';
 import bcrypt from 'bcrypt';
+
 import Infos from './Infos';
 
-import { ValidationError } from '../errors';
+import { ValidationError, NotFoundError, ConflictError } from '../errors';
 
 export interface NewUser {
     login: string;
@@ -26,6 +27,12 @@ export default class User extends BaseEntity {
     @Column({ type: 'text', unique: true })
     nome: string;
 
+    @Column({ type: 'text', nullable: true })
+    role: string;
+
+    @Column({ name: 'is_synced', type: 'boolean', nullable: false, default: false })
+    isSynced: boolean;
+
     @OneToMany(() => Infos, (infos) => infos.user)
     infos: Infos[];
 
@@ -39,7 +46,7 @@ export default class User extends BaseEntity {
 
         if (!!user) {
             const message = `Este ${user.nome === newUserInformation.nome ? 'nome' : 'login'} já está cadastrado! Tente outro.`;
-            throw new ValidationError(message);
+            throw new ConflictError(message);
         }
 
         const hashSenha = bcrypt.hashSync(newUserInformation.senha, 10);
@@ -50,5 +57,25 @@ export default class User extends BaseEntity {
             nome: newUserInformation.nome,
         })
         await newUser.save();
+    }
+
+    static async searchUserByLogin(login: string): Promise<User> {
+        const user = await this.findOne({
+            login
+        });
+
+        if (!user) {
+            throw new NotFoundError('Login não encontrado!');
+        }
+
+        return user;
+    }
+
+    static checkPassword(passwordSent: string, user: User): void {
+        const isPasswordCorrect = bcrypt.compareSync(passwordSent, user.senha);
+
+        if (!isPasswordCorrect) {
+            throw new ValidationError('Senha incorreta!');
+        }
     }
 }
