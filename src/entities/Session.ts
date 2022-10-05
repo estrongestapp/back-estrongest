@@ -34,4 +34,12 @@ export default class Session extends BaseEntity {
 
         return token;
     }
+
+    static async getSession(token: string) {
+        const session = await this.findOne({
+            token
+        });
+
+        return session;
+    }
 }

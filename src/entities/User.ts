@@ -78,4 +78,8 @@ export default class User extends BaseEntity {
             throw new ValidationError('Senha incorreta!');
         }
     }
+
+    static async syncUser(user: User) {
+        await this.update(user.id, { isSynced: true });
+    }
 }

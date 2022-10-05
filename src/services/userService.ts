@@ -26,9 +26,7 @@ export async function login(login: string, senha: string, admin: boolean) {
     const newSession = await SessionRepository.insertSession(user);
 
     return {
-        login: user.login,
-        nome: user.nome,
+        user,
         token: newSession,
-        isSynced: user.isSynced,
     };
 }

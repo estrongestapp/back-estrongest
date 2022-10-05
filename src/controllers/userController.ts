@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import InfosRepository from '../entities/Infos';
 import * as service from '../services/userService';
 
 export async function insertUser(req: Request, res: Response) {
@@ -19,9 +20,26 @@ export async function login(req: Request, res: Response) {
     try {
         console.info('Tentando fazer login');
         const { login, senha, admin } = req.body;
-        const user = await service.login(login, senha, admin);
+        const { user, token } = await service.login(login, senha, admin);
 
-        return res.status(200).send(user);
+        if (user.isSynced) {
+            const infos = await InfosRepository.getInfos(user);
+
+            return res.status(200).send({
+                login: user.login,
+                nome: user.nome,
+                token,
+                isSynced: user.isSynced,
+                infos
+            });
+        } else {
+            return res.status(200).send({
+                login: user.login,
+                nome: user.nome,
+                token,
+                isSynced: user.isSynced,
+            });
+        }
     } catch (error) {
         console.error(error);
         if (error.name === 'ValidationError') return res.status(400).send(error.message);
