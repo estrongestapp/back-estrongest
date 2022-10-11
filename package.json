@@ -23,7 +23,8 @@
     "joi": "^17.6.0",
     "pg": "^8.7.3",
     "typeorm": "^0.2.34",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "ts-node": "^10.8.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -32,7 +33,6 @@
     "@types/node": "^18.0.3",
     "@types/pg": "^8.6.5",
     "@types/uuid": "^8.3.4",
-    "ts-node": "^10.8.2",
     "typescript": "^4.7.4"
   }
 }
