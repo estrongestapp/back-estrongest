@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.insertUser = void 0;
+exports.getUsers = exports.login = exports.insertUser = void 0;
 const User_1 = __importDefault(require("../entities/User"));
 const Session_1 = __importDefault(require("../entities/Session"));
 const validations_1 = require("../validations");
@@ -42,3 +42,10 @@ function login(login, senha, admin) {
     });
 }
 exports.login = login;
+function getUsers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const users = yield User_1.default.find();
+        return users;
+    });
+}
+exports.getUsers = getUsers;
