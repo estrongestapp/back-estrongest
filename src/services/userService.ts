@@ -30,3 +30,9 @@ export async function login(login: string, senha: string, admin: boolean) {
         token: newSession,
     };
 }
+
+export async function getUsers(): Promise<UserRepository[]> {
+    const users = await UserRepository.find();
+
+    return users;
+}

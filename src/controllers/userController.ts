@@ -47,3 +47,14 @@ export async function login(req: Request, res: Response) {
         return res.status(500).send('Erro desconhecido!');
     }
 }
+
+export async function getUsers(req: Request, res: Response) {
+    try {
+        const users = await service.getUsers();
+
+        return res.status(200).send(users.map((user) => user.login));
+    } catch (error) {
+        console.error(error);
+        return res.send(500).send(`Erro: ${error.message}`);
+    }
+}
