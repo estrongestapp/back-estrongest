@@ -28,4 +28,5 @@ const controller = __importStar(require("../controllers/userController"));
 const router = (0, express_1.Router)();
 router.post('/signup', controller.insertUser);
 router.post('/signin', controller.login);
+router.get('/', controller.getUsers);
 exports.default = router;

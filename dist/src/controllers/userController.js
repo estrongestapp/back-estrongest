@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.insertUser = void 0;
+exports.getUsers = exports.login = exports.insertUser = void 0;
 const Infos_1 = __importDefault(require("../entities/Infos"));
 const service = __importStar(require("../services/userService"));
 function insertUser(req, res) {
@@ -92,3 +92,16 @@ function login(req, res) {
     });
 }
 exports.login = login;
+function getUsers(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const users = yield service.getUsers();
+            return res.status(200).send(users.map((user) => user.login));
+        }
+        catch (error) {
+            console.error(error);
+            return res.send(500).send(`Erro: ${error.message}`);
+        }
+    });
+}
+exports.getUsers = getUsers;
