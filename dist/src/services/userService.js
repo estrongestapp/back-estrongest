@@ -31,7 +31,7 @@ function login(login, senha, admin) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield User_1.default.searchUserByLogin(login);
         User_1.default.checkPassword(senha, user);
-        if (admin && user.role && user.role !== 'admin') {
+        if (admin && user.role !== 'admin') {
             throw new errors_1.ForbiddenError('Você não é um administrador!');
         }
         const newSession = yield Session_1.default.insertSession(user);

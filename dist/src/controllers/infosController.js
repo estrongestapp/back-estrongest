@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertInfos = void 0;
+exports.getAllInfos = exports.getInfos = exports.insertInfos = void 0;
 const service = __importStar(require("../services/infosService"));
 function insertInfos(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -53,3 +53,41 @@ function insertInfos(req, res) {
     });
 }
 exports.insertInfos = insertInfos;
+function getInfos(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield service.insertInfos(req.body);
+            return res.sendStatus(200);
+        }
+        catch (error) {
+            console.error(error);
+            if (error.name === 'ValidationError' || error.name === 'BadRequestError')
+                return res.status(400).send(error.message);
+            if (error.name === 'NotFoundError')
+                return res.status(404).send(error.message);
+            if (error.name === 'ForbiddenError')
+                return res.status(403).send(error.message);
+            return res.status(500).send(error.message);
+        }
+    });
+}
+exports.getInfos = getInfos;
+function getAllInfos(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const infos = yield service.getAllInfos(req.body.token);
+            return res.status(200).send(infos);
+        }
+        catch (error) {
+            console.error(error);
+            if (error.name === 'ValidationError' || error.name === 'BadRequestError')
+                return res.status(400).send(error.message);
+            if (error.name === 'NotFoundError')
+                return res.status(404).send(error.message);
+            if (error.name === 'ForbiddenError')
+                return res.status(403).send(error.message);
+            return res.status(500).send(error.message);
+        }
+    });
+}
+exports.getAllInfos = getAllInfos;

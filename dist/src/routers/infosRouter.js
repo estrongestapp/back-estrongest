@@ -27,4 +27,5 @@ const express_1 = require("express");
 const controller = __importStar(require("../controllers/infosController"));
 const router = (0, express_1.Router)();
 router.post('/', controller.insertInfos);
+router.post('/all', controller.getAllInfos);
 exports.default = router;
