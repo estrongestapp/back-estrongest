@@ -1,6 +1,7 @@
 import {
     BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column,
 } from 'typeorm';
+import _ from 'lodash';
 import User from './User';
 
 export interface NewInfos {
@@ -115,5 +116,18 @@ export default class Infos extends BaseEntity {
         });
 
         return mappedInfos;
+    }
+
+    static async getAllInfos() {
+        const infos = await this.find({});
+
+        const groupedInfos: any = _.groupBy(infos, 'user.nome');
+        for (const user of Object.keys(groupedInfos)) {
+            for (const week of groupedInfos[user]) {
+                delete week.user;
+            }
+        }
+
+        return groupedInfos;
     }
 }
