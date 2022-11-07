@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertInfos = void 0;
+exports.getAllInfos = exports.insertInfos = void 0;
 const Infos_1 = __importDefault(require("../entities/Infos"));
 const User_1 = __importDefault(require("../entities/User"));
 const errors_1 = require("../errors");
@@ -37,3 +37,13 @@ function insertInfos(newInfos) {
     });
 }
 exports.insertInfos = insertInfos;
+function getAllInfos(token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!token)
+            throw new errors_1.BadRequestError('Você precisa passar um token válido!');
+        yield (0, sessionService_1.validateAdminSession)(token);
+        const infos = yield Infos_1.default.getAllInfos();
+        return infos;
+    });
+}
+exports.getAllInfos = getAllInfos;

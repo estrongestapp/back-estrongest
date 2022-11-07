@@ -19,7 +19,7 @@ export async function login(login: string, senha: string, admin: boolean) {
 
     UserRepository.checkPassword(senha, user);
 
-    if (admin && user.role && user.role !== 'admin') {
+    if (admin && user.role !== 'admin') {
         throw new ForbiddenError('Você não é um administrador!');
     }
 

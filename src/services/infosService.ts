@@ -2,7 +2,7 @@ import InfosRepository, { NewInfos } from "../entities/Infos";
 import UserRepository from "../entities/User";
 
 import { BadRequestError } from "../errors";
-import { validateSession } from "./sessionService";
+import { validateSession, validateAdminSession } from "./sessionService";
 
 interface NewInfosBody {
     user: {
@@ -52,4 +52,13 @@ export async function insertInfos(newInfos: NewInfosBody): Promise<void> {
     if (!user.isSynced) {
         await UserRepository.syncUser(user);
     }
+}
+
+export async function getAllInfos(token: string) {
+    if (!token) throw new BadRequestError('Você precisa passar um token válido!');
+    await validateAdminSession(token);
+
+    const infos = await InfosRepository.getAllInfos();
+
+    return infos;
 }

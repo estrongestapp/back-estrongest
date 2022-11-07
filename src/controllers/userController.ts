@@ -44,6 +44,7 @@ export async function login(req: Request, res: Response) {
         console.error(error);
         if (error.name === 'ValidationError') return res.status(400).send(error.message);
         if (error.name === 'NotFoundError') return res.status(404).send(error.message);
+        if (error.name === 'ForbiddenError') return res.status(403).send(error.message);
         return res.status(500).send('Erro desconhecido!');
     }
 }

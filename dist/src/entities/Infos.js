@@ -22,6 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const lodash_1 = __importDefault(require("lodash"));
 const User_1 = __importDefault(require("./User"));
 let Infos = class Infos extends typeorm_1.BaseEntity {
     static insertInfos(info) {
@@ -54,6 +55,18 @@ let Infos = class Infos extends typeorm_1.BaseEntity {
                 mappedInfos[week] = info;
             });
             return mappedInfos;
+        });
+    }
+    static getAllInfos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const infos = yield this.find({});
+            const groupedInfos = lodash_1.default.groupBy(infos, 'user.nome');
+            for (const user of Object.keys(groupedInfos)) {
+                for (const week of groupedInfos[user]) {
+                    delete week.user;
+                }
+            }
+            return groupedInfos;
         });
     }
 };
