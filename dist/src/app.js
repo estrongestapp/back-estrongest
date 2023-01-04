@@ -21,15 +21,15 @@ const userRouter_1 = __importDefault(require("./routers/userRouter"));
 const infosRouter_1 = __importDefault(require("./routers/infosRouter"));
 const database_1 = __importDefault(require("./database"));
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
+    app.use((0, cors_1.default)());
     next();
 });
+app.use(express_1.default.json());
 app.use('/user', userRouter_1.default);
 app.use('/infos', infosRouter_1.default);
 app.get('/health', (request, res) => res.send('Ok!'));
