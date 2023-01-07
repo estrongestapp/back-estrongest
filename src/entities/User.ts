@@ -82,4 +82,9 @@ export default class User extends BaseEntity {
     static async syncUser(user: User) {
         await this.update(user.id, { isSynced: true });
     }
+
+    static async changePassword(newPassword: string, user: User) {
+        const hashSenha = bcrypt.hashSync(newPassword, 10);
+        await this.update(user.id, { senha: hashSenha });
+    }
 }

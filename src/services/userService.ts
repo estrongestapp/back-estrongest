@@ -36,3 +36,14 @@ export async function getUsers(): Promise<UserRepository[]> {
 
     return users;
 }
+
+export async function changePassword(newPassword: string, token: string): Promise<void> {
+    const session = await SessionRepository.getSession(token);
+
+    if (!session) {
+        throw new Error('Token inválido!');
+    }
+
+    await UserRepository.changePassword(newPassword, session.user);
+    await SessionRepository.invalidateSession(session.user);
+}

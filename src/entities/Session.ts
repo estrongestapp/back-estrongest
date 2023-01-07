@@ -42,4 +42,8 @@ export default class Session extends BaseEntity {
 
         return session;
     }
+
+    static async invalidateSession(user: User) {
+        await this.delete({ user });
+    }
 }

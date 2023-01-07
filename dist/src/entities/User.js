@@ -69,6 +69,12 @@ let User = class User extends typeorm_1.BaseEntity {
             yield this.update(user.id, { isSynced: true });
         });
     }
+    static changePassword(newPassword, user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const hashSenha = bcrypt_1.default.hashSync(newPassword, 10);
+            yield this.update(user.id, { senha: hashSenha });
+        });
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({ type: 'integer' }),

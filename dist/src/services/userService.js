@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = exports.login = exports.insertUser = void 0;
+exports.changePassword = exports.getUsers = exports.login = exports.insertUser = void 0;
 const User_1 = __importDefault(require("../entities/User"));
 const Session_1 = __importDefault(require("../entities/Session"));
 const validations_1 = require("../validations");
@@ -49,3 +49,14 @@ function getUsers() {
     });
 }
 exports.getUsers = getUsers;
+function changePassword(newPassword, token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const session = yield Session_1.default.getSession(token);
+        if (!session) {
+            throw new Error('Token inválido!');
+        }
+        yield User_1.default.changePassword(newPassword, session.user);
+        yield Session_1.default.invalidateSession(session.user);
+    });
+}
+exports.changePassword = changePassword;

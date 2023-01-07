@@ -42,6 +42,11 @@ let Session = class Session extends typeorm_1.BaseEntity {
             return session;
         });
     }
+    static invalidateSession(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.delete({ user });
+        });
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({ type: 'integer' }),

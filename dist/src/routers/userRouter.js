@@ -29,4 +29,5 @@ const router = (0, express_1.Router)();
 router.post('/signup', controller.insertUser);
 router.post('/signin', controller.login);
 router.get('/', controller.getUsers);
+router.post('/change-password', controller.changePassword);
 exports.default = router;

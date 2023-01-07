@@ -56,6 +56,23 @@ export async function getUsers(req: Request, res: Response) {
         return res.status(200).send(users.map((user) => user.login));
     } catch (error) {
         console.error(error);
-        return res.send(500).send(`Erro: ${error.message}`);
+        return res.status(500).send(`Erro: ${error.message}`);
+    }
+}
+
+export async function changePassword(req: Request, res: Response) {
+    try {
+        const { newPassword, token } = req.body;
+
+        if (!newPassword || !token) {
+            return res.status(400).send('Body inválido!');
+        }
+
+        await service.changePassword(newPassword, token);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(`Erro: ${error.message}`);
     }
 }
